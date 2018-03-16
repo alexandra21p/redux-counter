@@ -13,9 +13,9 @@ const counterReducer = ( state = 0, action ) => {
     }
 };
 
-const logger = store => next => action => {
+const logger = store => dispatch => action => {
     console.log( "dispatching:", action );
-    let result = next( action );
+    let result = dispatch( action );
     console.log( "next state:", store.getState() );
     return result;
 };
@@ -23,11 +23,11 @@ const logger = store => next => action => {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore( counterReducer, composeEnhancers( applyMiddleware( logger ) ) );
 
-const render = () => {
+const displayValue = () => {
     document.querySelector( ".counter-value" ).innerHTML = store.getState();
 };
 
-store.subscribe( render );
+store.subscribe( displayValue );
 render();
 
 const handleIncrementClick = () => { store.dispatch( { type: "INCREMENT" } ); };
